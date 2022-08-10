@@ -7,7 +7,7 @@ using System.Text;
 public partial class UserDefinedFunctions
 {
   [Microsoft.SqlServer.Server.SqlFunction]
-  public static SqlBytes FBaixaArquivosUrl(SqlString Url)
+  public static SqlBytes FBaixaArquivosUrl(SqlString Url, SqlString Path)
   {
     //here is where we get the file extension
     string[] SplitsUrl = Url.ToString().Split('.');
@@ -15,8 +15,8 @@ public partial class UserDefinedFunctions
     //here the name of the file is created as something that is impossible to repeat
     string FileName = DateTime.Now.ToString("yyyyMMddHHmmssffff") + "." + SplitsUrl[SplitsUrl.Length - 1];
 
-    //Insert path the file will be download
-    string FilePath = @"C:\DownloadFilesUrl\" + FileName;
+    //Path format: C:\Repository\
+    string FilePath = Path + FileName;
 
     //here is where the file is downloaded
     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
