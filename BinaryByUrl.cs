@@ -17,7 +17,12 @@ public partial class UserDefinedFunctions
 
     //Path format: C:\Repository\
     string FilePath = Path + FileName;
-
+    
+    //create directory if not exists
+    DirectoryInfo Diretorio = new DirectoryInfo(FilePath);
+    if (!Diretorio.Exists)
+      Directory.CreateDirectory(FilePath.ToString());
+    
     //here is where the file is downloaded
     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
     WebClient Client = new WebClient();
@@ -30,6 +35,12 @@ public partial class UserDefinedFunctions
 
     //Convert to SqlBytes for SQL
     var Sqlbytes = new SqlBytes(BinaryFile);  
+    
+    //close
+    BinaryReader.Close();
+
+    //delete file
+    File.Delete();
 
     return Sqlbytes;
   }
